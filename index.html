@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Galerie photo</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #fafafa; }
+    .gallery { display: flex; flex-wrap: wrap; justify-content: center; }
+    .gallery img { max-width: 200px; margin: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+  </style>
+</head>
+<body>
+  <h1>Mes photos</h1>
+  <div class="gallery" id="gallery"></div>
+
+  <script>
+    // Liste automatiquement les fichiers dans /photos (nécessite un serveur web qui autorise l'indexation)
+    fetch("photos/")
+      .then(res => res.text())
+      .then(data => {
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(data, "text/html");
+        let links = doc.querySelectorAll("a");
+        links.forEach(link => {
+          let href = link.getAttribute("href");
+          if (href.match(/\.(jpe?g|png|gif|webp)$/i)) {
+            let img = document.createElement("img");
+            img.src = "photos/" + href;
+            document.getElementById("gallery").appendChild(img);
+          }
+        });
+      });
+  </script>
+</body>
+</html>
