@@ -2,34 +2,14 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Galerie photo</title>
+  <title>Test GitHub Pages</title>
   <style>
-    body { font-family: sans-serif; text-align: center; background: #fafafa; }
-    .gallery { display: flex; flex-wrap: wrap; justify-content: center; }
-    .gallery img { max-width: 200px; margin: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+    h1 { color: #444; }
   </style>
 </head>
 <body>
-  <h1>Mes photos</h1>
-  <div class="gallery" id="gallery"></div>
-
-  <script>
-    // Liste automatiquement les fichiers dans /photos (nÃ©cessite un serveur web qui autorise l'indexation)
-    fetch("photos/")
-      .then(res => res.text())
-      .then(data => {
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(data, "text/html");
-        let links = doc.querySelectorAll("a");
-        links.forEach(link => {
-          let href = link.getAttribute("href");
-          if (href.match(/\.(jpe?g|png|gif|webp)$/i)) {
-            let img = document.createElement("img");
-            img.src = "photos/" + href;
-            document.getElementById("gallery").appendChild(img);
-          }
-        });
-      });
-  </script>
+  <h1>?? Mon premier site GitHub Pages fonctionne !</h1>
+  <p>Si tu vois ce message, c’est que tout est OK ?</p>
 </body>
 </html>
