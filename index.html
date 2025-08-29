@@ -2,34 +2,37 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Galerie photo</title>
+  <title>Galerie photo auto</title>
   <style>
-    body { font-family: sans-serif; text-align: center; background: #fafafa; }
+    body { font-family: sans-serif; background: #fafafa; text-align: center; }
+    h1 { color: #333; margin: 20px 0; }
     .gallery { display: flex; flex-wrap: wrap; justify-content: center; }
     .gallery img { max-width: 200px; margin: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
   </style>
 </head>
 <body>
-  <h1>Mes photos 2</h1>
+  <h1>?? Ma galerie photo</h1>
   <div class="gallery" id="gallery"></div>
 
   <script>
-    // Liste automatiquement les fichiers dans /photos //(nécessite un serveur web qui autorise l'indexation)
-    fetch("photos/")
-      .then(res => res.text())
-      .then(data => {
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(data, "text/html");
-        let links = doc.querySelectorAll("a");
-        links.forEach(link => {
-          let href = link.getAttribute("href");
-          if (href.match(/\.(jpe?g|png|gif|webp)$/i)) {
-            let img = document.createElement("img");
-            img.src = "photos/" + href;
+    // ?? change "tonpseudo" et "nom-du-depot" par les tiens
+    const user = "tonpseudo";
+    const repo = "nom-du-depot";
+    const path = "photos";
+
+    fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`)
+      .then(res => res.json())
+      .then(files => {
+        files.forEach(file => {
+          if (file.name.match(/\.(jpe?g|png|gif|webp)$/i)) {
+            const img = document.createElement("img");
+            img.src = file.download_url;
+            img.alt = file.name;
             document.getElementById("gallery").appendChild(img);
           }
         });
-      });
+      })
+      .catch(err => console.error(err));
   </script>
 </body>
 </html>
